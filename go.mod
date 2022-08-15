@@ -1,4 +1,4 @@
-module github.com/codeedu/codebank
+module github.com/RafaelDalarosa/fc-bank
 
 go 1.15
 

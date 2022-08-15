@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/RafaelDalarosa/fc-bank/domain"
+	domain "github.com/RafaelDalarosa/fc-bank/domain/entities"
+	"github.com/RafaelDalarosa/fc-bank/domain/usecase"
 	"github.com/RafaelDalarosa/fc-bank/infra/repository"
-	"github.com/RafaelDalarosa/fc-bank/usecase"
 	_ "github.com/lib/pq"
 )
 
@@ -17,7 +17,7 @@ func main() {
 
 	cc := domain.NewCreditCard()
 	cc.Number = "1234"
-	cc.Name = "Wesley"
+	cc.Name = "RafaelDalarosa"
 	cc.ExpirationYear = 2021
 	cc.ExpirationMonth = 7
 	cc.CVV = 123
@@ -40,10 +40,10 @@ func setupTransactionUseCase(db *sql.DB) usecase.UseCaseTransaction {
 func setupDb() *sql.DB {
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		"db",
-		"5432",
+		"5433",
 		"postgres",
 		"root",
-		"codebank",
+		"adeee44c40c89bfca362ed663ab9675b83ee16bd655cfd1dd942513d53392d44",
 	)
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {

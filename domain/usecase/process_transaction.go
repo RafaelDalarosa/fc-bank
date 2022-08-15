@@ -3,7 +3,7 @@ package usecase
 import (
 	"time"
 
-	"github.com/RafaelDalarosa/fc-bank/domain"
+	domain "github.com/RafaelDalarosa/fc-bank/domain/entities"
 	"github.com/RafaelDalarosa/fc-bank/infra/dto"
 )
 
