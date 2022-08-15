@@ -1,8 +1,6 @@
-name: build dcker image and push to registry
+name: build docker image and push to registry
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
 jobs:
@@ -12,7 +10,7 @@ jobs:
       - name: Prepare Build the Docker image
         uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file docker/Dockerfile --tag fc-bank:latest
+        run: docker build -t fc-bank:latest -f docker/Dockerfile .
       - name: Prepare Push the Docker Image
         uses: docker/login-action@v2.0.0
         with:
