@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  app:
+    container_name: appbank
+    image: rafaeldalarosa/fc-bank:latest
+    ports:
+      - "50051:50051"
+
+  db:
+    container_name: database
+    image: postgres:9.4
+    restart: always
+    tty: true
+    volumes:
+      - .pgdata:/var/lib/postgresql/dataq
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=adeee44c40c89bfca362ed663ab9675b83ee16bd655cfd1dd942513d53392d44
+    ports:
+      - "5433:5432"
