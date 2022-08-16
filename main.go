@@ -39,11 +39,11 @@ func setupTransactionUseCase(db *sql.DB) usecase.UseCaseTransaction {
 
 func setupDb() *sql.DB {
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		"db",
+		"10.255.254.95",
 		"5433",
 		"postgres",
-		"root",
 		"adeee44c40c89bfca362ed663ab9675b83ee16bd655cfd1dd942513d53392d44",
+		"master",
 	)
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
