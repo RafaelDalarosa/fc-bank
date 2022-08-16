@@ -9,12 +9,13 @@ services:
 
   db:
     container_name: database
-    image: postgres:9.4
+    image: postgres
     restart: always
-    tty: true
     volumes:
       - ./DATA2:/var/lib/postgresql/dataq
     environment:
-      - POSTGRES_PASSWORD=adeee44c40c89bfca362ed663ab9675b83ee16bd655cfd1dd942513d53392d44
-      - POSTGRES_DB=bank
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: adeee44c40c89bfca362ed663ab9675b83ee16bd655cfd1dd942513d53392d44
+      POSTGRES_DB: bank
+    ports:
       - "5433:5432"
