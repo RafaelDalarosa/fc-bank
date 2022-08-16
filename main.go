@@ -43,7 +43,7 @@ func setupDb() *sql.DB {
 		"5433",
 		"postgres",
 		"adeee44c40c89bfca362ed663ab9675b83ee16bd655cfd1dd942513d53392d44",
-		"master",
+		"bank",
 	)
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {

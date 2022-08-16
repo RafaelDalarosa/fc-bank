@@ -16,5 +16,5 @@ services:
       - .pgdata:/var/lib/postgresql/dataq
     environment:
       - POSTGRES_PASSWORD=adeee44c40c89bfca362ed663ab9675b83ee16bd655cfd1dd942513d53392d44
-      - POSTGRES_DB=master
+      - POSTGRES_DB=bank
       - "5433:5432"
