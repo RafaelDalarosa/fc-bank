@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"log"
 
-	domain "github.com/RafaelDalarosa/fc-bank/domain/entities"
 	"github.com/RafaelDalarosa/fc-bank/domain/usecase"
+	"github.com/RafaelDalarosa/fc-bank/infra/grpc/server"
+	"github.com/RafaelDalarosa/fc-bank/infra/kafka"
 	"github.com/RafaelDalarosa/fc-bank/infra/repository"
 	_ "github.com/lib/pq"
 )
@@ -14,26 +15,29 @@ import (
 func main() {
 	db := setupDb()
 	defer db.Close()
+	producer := setupProducer()
+	processTransactionUseCase := setupTransactionUseCase(db, producer)
+	serverGRPC(processTransactionUseCase)
 
-	cc := domain.NewCreditCard()
-	cc.Number = "1234"
-	cc.Name = "RafaelDalarosa"
-	cc.ExpirationYear = 2021
-	cc.ExpirationMonth = 7
-	cc.CVV = 123
-	cc.Limit = 1000
-	cc.Balance = 0
-
-	repo := repository.NewTransactionRepositoryDb(db)
-	err := repo.CreateCreditCard(*cc)
-	if err != nil {
-		fmt.Println(err)
-	}
 }
 
-func setupTransactionUseCase(db *sql.DB) usecase.UseCaseTransaction {
+func setupProducer() kafka.KafkaProducer {
+	producer := kafka.NewKafkaProducer()
+	producer.SetupProducer("10.255.254.95:9092")
+	return producer
+}
+
+func serverGRPC(processTransactionUseCase usecase.UseCaseTransaction) {
+	grpcServer := server.NewGRPCServer()
+	grpcServer.ProcessTransactionUseCase = processTransactionUseCase
+	fmt.Println("GRPCServer started")
+	grpcServer.Server()
+}
+
+func setupTransactionUseCase(db *sql.DB, producer kafka.KafkaProducer) usecase.UseCaseTransaction {
 	transactionRepository := repository.NewTransactionRepositoryDb(db)
 	useCase := usecase.NewUseCaseTransaction(transactionRepository)
+	useCase.KafkaProducer = producer
 	return useCase
 }
 
@@ -51,3 +55,18 @@ func setupDb() *sql.DB {
 	}
 	return db
 }
+
+// cc := domain.NewCreditCard()
+// 	cc.Number = "1234"
+// 	cc.Name = "RafaelDalarosa"
+// 	cc.ExpirationYear = 2021
+// 	cc.ExpirationMonth = 7
+// 	cc.CVV = 123
+// 	cc.Limit = 1000
+// 	cc.Balance = 0
+
+// 	repo := repository.NewTransactionRepositoryDb(db)
+// 	err := repo.CreateCreditCard(*cc)
+// 	if err != nil {
+// 		fmt.Println(err)
+// 	}
